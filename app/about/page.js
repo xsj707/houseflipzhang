@@ -2,21 +2,25 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata = {
-  title: "Privacy Policy - Zhang Dong Architecture",
-  description: "Privacy policy for Zhang Dong Architecture",
+  title: "About - Zhang Dong Architecture",
+  description: "About Zhang Dong Architecture",
 };
 
-export default function PrivacyPolicyPage() {
+export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       <SiteHeader showNav={true} />
 
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-8 max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-light mb-8">Privacy Policy</h1>
+          <h1 className="text-4xl md:text-6xl font-light mb-8">Profile</h1>
           <div className="prose prose-lg max-w-none">
             <p className="text-lg font-light leading-relaxed mb-4">
-              [Privacy policy content to be added]
+              Zhang Dong is an architect offering residential design services to customers
+              in the Bay Area and beyond.
+            </p>
+            <p className="text-lg font-light leading-relaxed">
+              [Profile content to be added]
             </p>
           </div>
         </div>
@@ -26,3 +30,4 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+

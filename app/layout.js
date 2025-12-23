@@ -19,12 +19,8 @@ export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
 	return (
-		<html
-			lang="en"
-			data-theme={config.colors.theme}
-			className={font.className}
-		>
-			<body>
+		<html lang="en" className={font.className}>
+			<body className="bg-white text-black antialiased">
 				{/* ClientLayout contains all the client wrappers (Crisp chat support, toast messages, tooltips, etc.) */}
 				<ClientLayout>{children}</ClientLayout>
 			</body>

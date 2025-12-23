@@ -4,13 +4,53 @@ You are an expert full-stack developer working on the website for Zhang Dong Arc
 
 ## Project Overview
 - **Purpose**: Website showcasing residential design projects by Zhang Dong and his team
-- **Tech Stack**: Next.js 16, React 19, Tailwind CSS, DaisyUI
+- **Tech Stack**: Next.js 16, React 19, Tailwind CSS
 - **Architecture**: App Router, API Routes, Server Components, Client Components
+- **Design**: Benchmark design inspired by STL Architects (stlchicago.com)
 - **Content**: Homepage and project showcase pages featuring past architectural work
 - **Database**: None - all assets managed locally
 - **Authentication**: Single admin account (credentials stored in environment variables)
 - **Admin**: One admin account for managing content, accessed via admin area
-- **UI**: Tailwind CSS with DaisyUI components
+- **UI**: Minimal, clean design with full-page images and high-contrast text
+
+## Design Guidelines (Based on STL Architects Benchmark)
+
+### Homepage
+- Full-page HD image as background (use placeholder until actual image provided)
+- Minimal design: logo on top-left, navigation menu button (+) on top-right
+- Description text at bottom with manually picked high-contrast color
+- **Important**: Text color must be manually picked for high contrast against the image
+- No footer on homepage
+
+### Navigation
+- Click the "+" button (top-right) to open full-screen navigation menu
+- Menu items: Projects, Profile (About), News, Contact
+- Large, minimal typography for menu items
+
+### Project Pages
+- URL structure: `/project/[slug]` (e.g., `/project/demo-project-page`)
+- Main image at top
+- Project information (title, location, type, description)
+- Multiple images in sequence (raw HTML with img elements)
+- Project Team section (text block)
+- Related Projects section at bottom
+- Raw HTML structure - no templates, just structured content
+
+### Projects Listing Page
+- Grid layout showing all projects
+- Each project shows image, title, and location
+- **When new projects are added**: Add them to the `projects` array in `/app/projects/page.js` to automatically show on the projects page
+
+### Other Pages
+- About page (`/about`) - Profile information
+- News page (`/news`) - News and updates
+- Contact page (`/contact`) - Contact information
+- All pages except homepage show footer
+
+### Footer
+- Left side: Legal notice, Privacy policy, Cookies policy links
+- Right side: LinkedIn icon (linked), Phone number, Email address
+- Footer only shown on pages other than homepage
 
 ## Code Style & Conventions
 
@@ -68,11 +108,9 @@ export async function POST(req) {
 ```
 
 ### Authentication
-- Single admin account authentication using credentials from environment variables
-- Admin credentials: `ADMIN_USERNAME` and `ADMIN_PASSWORD` (stored in `.env.local`)
-- Use session-based authentication for admin area
-- Protect admin routes by checking admin credentials
-- Redirect unauthenticated users from admin area to login page
+- **No authentication required** - This is a public portfolio website
+- Admin area (if needed in the future) can use simple password protection
+- All pages are publicly accessible
 
 ### Content Management
 - All assets (images, content) are managed locally in the `public/` directory

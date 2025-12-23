@@ -1,45 +1,49 @@
-import Link from "next/link";
-import ButtonSignin from "@/components/ButtonSignin";
+"use client";
 
-export default function Page() {
+import SiteHeader from "@/components/SiteHeader";
+import Image from "next/image";
+
+export default function HomePage() {
+  // Placeholder image - will be replaced with actual image later
+  // For now, using gradient background until actual image is provided
+  const heroImage = "/images/placeholder-hero.jpg";
+
+  // Description text with high contrast color (manually picked to contrast with image)
+  // Color will be adjusted based on actual image provided
+  const descriptionText =
+    "Residential design services by Zhang Dong and his team. Serving the Bay Area and beyond with custom architectural solutions.";
+
   return (
-    <>
-      <header className="p-4 flex justify-end max-w-7xl mx-auto">
-        <ButtonSignin text="Login" />
-      </header>
-      <main>
-        <section className="flex flex-col items-center justify-center text-center gap-12 px-8 py-24">
-          <h1 className="text-3xl font-extrabold">Ship Fast ⚡️</h1>
+    <div className="relative min-h-screen">
+      <SiteHeader showNav={true} />
 
-          <p className="text-lg opacity-80">
-            The start of your new startup... What are you gonna build?
-          </p>
+      {/* Full page hero image */}
+      <div className="fixed inset-0 z-0">
+        {/* Full-screen hero image */}
+        <Image
+          src={heroImage}
+          alt="Zhang Dong Architecture"
+          fill
+          priority
+          className="object-cover"
+          style={{ objectFit: "cover" }}
+        />
+        {/* Subtle overlay to keep text legible */}
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
 
-          <a
-            className="btn btn-primary"
-            href="https://shipfa.st/docs"
-            target="_blank"
-          >
-            Documentation & tutorials{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5 10a.75.75 0 01.75-.75h6.638L10.23 7.29a.75.75 0 111.04-1.08l3.5 3.25a.75.75 0 010 1.08l-3.5 3.25a.75.75 0 11-1.04-1.08l2.158-1.96H5.75A.75.75 0 015 10z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </a>
-
-          <Link href="/blog" className="link link-hover text-sm">
-            Fancy a blog?
-          </Link>
-        </section>
-      </main>
-    </>
+      {/* Description text at bottom */}
+      <div className="fixed bottom-8 left-8 right-8 md:left-16 md:right-16 z-20">
+        <p
+          className="text-lg md:text-xl font-light max-w-2xl"
+          style={{
+            color: "#ffffff", // High contrast white - adjust based on actual image
+            textShadow: "0 2px 4px rgba(0,0,0,0.3)", // Subtle shadow for readability
+          }}
+        >
+          {descriptionText}
+        </p>
+      </div>
+    </div>
   );
 }
