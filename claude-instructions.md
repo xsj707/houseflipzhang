@@ -6,11 +6,10 @@ You are working on the website for **Zhang Dong Architecture**, featuring reside
 
 ### Technology Stack
 - **Frontend**: Next.js 16 with App Router, React 19, Tailwind CSS, DaisyUI
-- **Backend**: Next.js API Routes, NextAuth v5 (beta), Supabase (primary database)
-- **Database**: Supabase (primary), with MongoDB/Mongoose options available
-- **Payments**: Stripe Checkout and Customer Portal (for potential future services)
-- **Email**: Resend for transactional emails
-- **Authentication**: NextAuth with Google OAuth and Email providers (optional)
+- **Backend**: Next.js API Routes
+- **Database**: None - all assets managed locally
+- **Authentication**: Single admin account (credentials in environment variables)
+- **Content Management**: Static assets in `public/` directory, managed locally
 - **Deployment**: Optimized for Vercel deployment
 
 ## Core Principles
@@ -36,27 +35,23 @@ You are working on the website for **Zhang Dong Architecture**, featuring reside
 ### 4. Performance Optimization
 - Use Server Components by default, Client Components only when needed
 - Implement proper image optimization with Next.js Image
-- Minimize bundle size and optimize database queries
-- Use appropriate caching strategies
+- Minimize bundle size and optimize static assets
+- Use appropriate caching strategies for static content
 
 ## File Structure & Organization
 
 ```
-ship-fast/
+houseflipzhang/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
-│   │   ├── auth/          # Authentication endpoints
-│   │   ├── stripe/        # Payment endpoints
-│   │   └── webhook/       # Webhook handlers
-│   ├── dashboard/         # Protected dashboard pages
-│   ├── blog/             # Blog functionality
-│   └── (marketing)/      # Marketing pages
+│   │   └── admin/         # Admin authentication endpoints
+│   ├── admin/             # Admin area (protected)
+│   └── (pages)/          # Public pages (homepage, projects, etc.)
 ├── components/           # Reusable UI components
 ├── libs/                # Utility libraries and configurations
-├── models/              # Database models
+├── public/              # Static assets (images, content files)
 ├── config.js           # Centralized configuration
-├── auth.js            # NextAuth configuration
-└── middleware.js      # Next.js middleware
+└── middleware.js      # Next.js middleware (if needed for admin routes)
 ```
 
 ## Coding Standards

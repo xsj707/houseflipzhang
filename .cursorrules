@@ -4,11 +4,12 @@ You are an expert full-stack developer working on the website for Zhang Dong Arc
 
 ## Project Overview
 - **Purpose**: Website showcasing residential design projects by Zhang Dong and his team
-- **Tech Stack**: Next.js 16, React 19, NextAuth v5 (beta), Supabase/MongoDB, Stripe, Tailwind CSS, DaisyUI, Resend
+- **Tech Stack**: Next.js 16, React 19, Tailwind CSS, DaisyUI
 - **Architecture**: App Router, API Routes, Server Components, Client Components
 - **Content**: Homepage and project showcase pages featuring past architectural work
-- **Database**: Supabase (primary), with MongoDB/Mongoose options available
-- **Email**: Resend for transactional emails
+- **Database**: None - all assets managed locally
+- **Authentication**: Single admin account (credentials stored in environment variables)
+- **Admin**: One admin account for managing content, accessed via admin area
 - **UI**: Tailwind CSS with DaisyUI components
 
 ## Code Style & Conventions
@@ -66,24 +67,17 @@ export async function POST(req) {
 }
 ```
 
-### Database Patterns
-- Use Mongoose for MongoDB operations
-- Always call `connectMongo()` before database operations
-- Use schema validation and plugins
-- Include timestamps in schemas
-- Use the `toJSON` plugin for clean API responses
-
 ### Authentication
-- Use `auth()` from `@/libs/auth` to get session
-- Check authentication in API routes when needed
-- Use `session?.user?.id` to access user ID
-- Redirect unauthenticated users to `config.auth.loginUrl`
+- Single admin account authentication using credentials from environment variables
+- Admin credentials: `ADMIN_USERNAME` and `ADMIN_PASSWORD` (stored in `.env.local`)
+- Use session-based authentication for admin area
+- Protect admin routes by checking admin credentials
+- Redirect unauthenticated users from admin area to login page
 
-### Stripe Integration
-- Use `createCheckout()` from `@/libs/stripe` for payments
-- Handle webhooks in `app/api/webhook/stripe/route.js`
-- Store `customerId` and `priceId` in user model
-- Use `hasAccess` field to control feature access
+### Content Management
+- All assets (images, content) are managed locally in the `public/` directory
+- No database required - content is static or stored in local files
+- Admin area allows managing/editing content through file system or local storage
 
 ## Best Practices
 
@@ -104,7 +98,7 @@ export async function POST(req) {
 - Only use Client Components when necessary (interactivity, hooks)
 - Implement proper loading states
 - Use Next.js Image component for optimized images
-- Leverage MongoDB indexes for queries
+- Optimize static assets in `public/` directory
 
 ### UI/UX
 - Use DaisyUI classes for consistent styling
@@ -115,18 +109,14 @@ export async function POST(req) {
 
 ## Environment Variables
 Required environment variables:
-- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
-- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key
-- `RESEND_API_KEY` - Resend email service API key
-- `STRIPE_PUBLIC_KEY` - Stripe public key
-- `STRIPE_SECRET_KEY` - Stripe secret key
-- `STRIPE_WEBHOOK_SECRET` - Stripe webhook secret
-- `NEXTAUTH_SECRET` (optional, if using authentication)
-- `NEXTAUTH_URL` (optional, if using authentication)
-- `MONGODB_URI` (optional, if using MongoDB instead of Supabase)
-- `GOOGLE_ID` (optional, for OAuth)
-- `GOOGLE_SECRET` (optional, for OAuth)
+- `ADMIN_USERNAME` - Admin account username (default: "Zhang")
+- `ADMIN_PASSWORD` - Admin account password (stored securely, change when deployed)
+
+Optional environment variables (for future features):
+- `NEXTAUTH_SECRET` - Secret key for session management (if using NextAuth)
+- `NEXTAUTH_URL` - Application URL for authentication
+- `RESEND_API_KEY` - Resend email service API key (if using email features)
+- `STRIPE_PUBLIC_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` - Stripe keys (if using payment features)
 
 ## Common Patterns
 
@@ -167,28 +157,24 @@ const ComponentName = () => {
 };
 ```
 
-### Mongoose Model
+### Admin Authentication Check
 ```javascript
-import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import { cookies } from "next/headers";
 
-const schema = mongoose.Schema(
-  {
-    field: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  },
-  {
-    timestamps: true,
-    toJSON: { virtuals: true },
+export async function isAdmin() {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get("admin-session");
+  // Verify session token matches admin credentials
+  return sessionToken?.value === process.env.ADMIN_PASSWORD;
+}
+
+export async function requireAdmin() {
+  const admin = await isAdmin();
+  if (!admin) {
+    redirect("/admin/login");
   }
-);
-
-schema.plugin(toJSON);
-
-export default mongoose.models.ModelName || mongoose.model("ModelName", schema);
+  return true;
+}
 ```
 
 ## Configuration
@@ -202,14 +188,13 @@ export default mongoose.models.ModelName || mongoose.model("ModelName", schema);
 - Use `npm run dev` for development
 - Use `npm run build` for production builds
 - Follow conventional commit messages
-- Test Stripe webhooks using Stripe CLI
-- Use MongoDB Compass for database inspection
+- Test admin authentication flow
+- Verify admin credentials are set in `.env.local`
 
 ## Deployment Considerations
-- Set all required environment variables
-- Configure Stripe webhooks endpoint
-- Set up MongoDB Atlas connection
-- Configure domain for NextAuth
-- Set up Resend domain for emails
+- Set `ADMIN_USERNAME` and `ADMIN_PASSWORD` environment variables (change from defaults when deploying)
+- Ensure all static assets are included in deployment
+- No database setup required
+- Configure domain in `config.js`
 
 Remember to always check the existing codebase patterns before implementing new features to maintain consistency. 

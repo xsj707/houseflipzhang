@@ -11,10 +11,9 @@ This website showcases the architectural work of Zhang Dong and his team, featur
 - **Framework**: Next.js 16 with App Router
 - **Frontend**: React 19, Tailwind CSS, DaisyUI
 - **Backend**: Next.js API Routes
-- **Database**: Supabase (with MongoDB options available)
-- **Authentication**: NextAuth v5 (beta)
-- **Payments**: Stripe (for potential future services)
-- **Email**: Resend for transactional emails
+- **Database**: None - all assets managed locally
+- **Authentication**: Single admin account (credentials in environment variables)
+- **Content**: Static assets stored locally in `public/` directory
 
 ## Development
 
@@ -41,23 +40,32 @@ npm run dev
 
 ## Environment Variables
 
-Required environment variables are documented in `.env.local`. Key variables include:
+Required environment variables (set in `.env.local`):
 
-- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
-- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key
-- `RESEND_API_KEY` - Resend email service API key
-- `STRIPE_PUBLIC_KEY` - Stripe public key
-- `STRIPE_SECRET_KEY` - Stripe secret key
-- `STRIPE_WEBHOOK_SECRET` - Stripe webhook secret
+- `ADMIN_USERNAME` - Admin account username (default: "Zhang")
+- `ADMIN_PASSWORD` - Admin account password (default: "ZhangDongSecrete1", **change when deploying**)
+
+**Important**: Change the admin password in production to a secure value.
+
+Optional variables (for future features):
+- Various optional API keys for Stripe, Resend, etc. (see `.env.local` for full list)
 
 ## Project Structure
 
 - `app/` - Next.js App Router pages and API routes
+  - `app/admin/` - Admin area (protected, requires authentication)
 - `components/` - React components
 - `libs/` - Utility libraries and helpers
-- `public/` - Static assets and images
+- `public/` - Static assets and images (all content managed locally)
 - `config.js` - Application configuration
+
+## Admin Area
+
+The website includes an admin area accessible via `/admin` with a single admin account. Credentials are configured in `.env.local`:
+- Username: Set via `ADMIN_USERNAME` (default: "Zhang")
+- Password: Set via `ADMIN_PASSWORD` (default: "ZhangDongSecrete1")
+
+**Security Note**: Always change the admin password before deploying to production.
 
 ## Build
 
