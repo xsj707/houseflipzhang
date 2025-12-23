@@ -4,17 +4,19 @@
 
 import { project as demoProjectPage } from "@/app/project/demo-project-page/data";
 import { project as demoProjectPage2 } from "@/app/project/demo-project-page-2/data";
+import { project as koreaNationalMuseum } from "@/app/project/korea-national-museum/data";
 
 // Add new project imports here as you create them
 // Each project should have a data.js file: app/project/[project-name]/data.js
-// import { project as project3 } from "@/app/project/project-3-slug/data";
+// import { project as project4 } from "@/app/project/project-4-slug/data";
 
 // Array of all project modules (imported from individual project pages)
 const projectModules = [
   demoProjectPage,
   demoProjectPage2,
+  koreaNationalMuseum,
   // Add new projects here as you create individual project folders
-  // project3,
+  // project4,
 ];
 
 /**
