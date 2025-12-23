@@ -28,18 +28,42 @@ You are an expert full-stack developer working on the website for Zhang Dong Arc
 - Large, minimal typography for menu items
 
 ### Project Pages
-- URL structure: `/project/[slug]` (e.g., `/project/demo-project-page`)
-- Main image at top
-- Project information (title, location, type, description)
-- Multiple images in sequence (raw HTML with img elements)
-- Project Team section (text block)
-- Related Projects section at bottom
-- Raw HTML structure - no templates, just structured content
+- **IMPORTANT**: Each project has its own individual folder under `app/project/` with a dedicated `page.js` file
+- **NO dynamic routing**: We do NOT use dynamic routes like `[slug]` or `[[...slug]]`
+- URL structure matches folder structure: `/project/[project-name]` (e.g., `/project/demo-project-page`)
+- Each project folder contains:
+  - `page.js` - The page component for the project
+  - `data.js` - Project data (title, description, images, team, etc.)
+- Structure example:
+  ```
+  app/project/
+    demo-project-page/
+      page.js
+      data.js
+    another-project/
+      page.js
+      data.js
+  ```
+- Project page includes:
+  - Main image at top
+  - Project information (title, location, type, description)
+  - Multiple images in sequence
+  - Project Team section (text block)
+  - Related Projects section at bottom
+- To add a new project:
+  1. Create folder: `app/project/[project-name]/`
+  2. Create `data.js` with project data (export const project = { ... })
+  3. Create `page.js` that imports from `./data` and renders the project
+  4. Import the project in `libs/projects.js` to include it in listings
 
 ### Projects Listing Page
 - Grid layout showing all projects
 - Each project shows image, title, and location
-- **When new projects are added**: Add them to the `projects` array in `/app/projects/page.js` to automatically show on the projects page
+- Projects are loaded from `libs/projects.js` which imports from individual project `data.js` files
+- **When new projects are added**: 
+  1. Create the project folder with `page.js` and `data.js` (see Project Pages above)
+  2. Import the project data in `libs/projects.js`: `import { project as projectName } from "@/app/project/[project-name]/data"`
+  3. Add it to the `projectModules` array in `libs/projects.js`
 
 ### Other Pages
 - About page (`/about`) - Profile information
@@ -61,6 +85,8 @@ You are an expert full-stack developer working on the website for Zhang Dong Arc
 - Utilities/libs in `libs/` directory
 - Models in `models/` directory
 - Configuration in `config.js`
+- **Project pages**: Each project has its own folder under `app/project/[project-name]/` with `page.js` and `data.js`
+- **NO dynamic routing**: Do not use `[slug]`, `[[...slug]]`, or other dynamic route segments for project pages
 
 ### Naming Conventions
 - **Components**: PascalCase (e.g., `ButtonCheckout.js`, `HeaderBlog.js`)

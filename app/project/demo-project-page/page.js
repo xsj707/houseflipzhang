@@ -2,43 +2,19 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { getAllProjects } from "@/libs/projects";
+import { project } from "./data";
 
-// Projects data - matches the structure in /projects page
-const projects = {
-  "demo-project-page": {
-    title: "Demo Project",
-    location: "Bay Area, CA, US",
-    year: "2024",
-    type: "Residential",
-    description:
-      "A modern residential design that seamlessly blends indoor and outdoor living spaces. This project demonstrates Zhang Dong's expertise in creating harmonious connections between architecture and nature, featuring large windows that flood the interior with natural light and carefully designed outdoor areas that extend the living space.",
-    mainImage: "/images/placeholder-project.jpg",
-    images: [
-      "/images/placeholder-project.jpg",
-      "/images/placeholder-project.jpg",
-      "/images/placeholder-project.jpg",
-    ],
-    team: ["Zhang Dong", "Project Team Member 1", "Project Team Member 2"],
-  },
+export const metadata = {
+  title: `${project.title} - Zhang Dong Architecture`,
+  description: project.description.substring(0, 160) + "...",
 };
 
-export async function generateStaticParams() {
-  return Object.keys(projects).map((slug) => ({
-    slug,
-  }));
-}
-
-export default function ProjectPage({ params }) {
-  const project = projects[params.slug];
-
-  if (!project) {
-    notFound();
-  }
-
+export default function DemoProjectPage() {
   // Get other projects for "Related Projects" section
-  const otherProjects = Object.keys(projects)
-    .filter((s) => s !== params.slug)
+  const allProjects = getAllProjects();
+  const otherProjects = allProjects
+    .filter((p) => p.slug !== project.slug)
     .slice(0, 4);
 
   return (
@@ -115,10 +91,13 @@ export default function ProjectPage({ params }) {
               <div className="border-t border-black/10 pt-12">
                 <h2 className="text-2xl font-light mb-8">Related Projects</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {otherProjects.map((slug) => {
-                    const relatedProject = projects[slug];
+                  {otherProjects.map((relatedProject) => {
                     return (
-                      <Link key={slug} href={`/project/${slug}`} className="group">
+                      <Link
+                        key={relatedProject.slug}
+                        href={`/project/${relatedProject.slug}`}
+                        className="group"
+                      >
                         <div className="aspect-square relative overflow-hidden mb-2">
                           <Image
                             src={relatedProject.mainImage}
@@ -147,3 +126,4 @@ export default function ProjectPage({ params }) {
     </div>
   );
 }
+

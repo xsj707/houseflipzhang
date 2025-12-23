@@ -17,19 +17,21 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Menu button (+ icon) */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed top-4 right-4 z-50 text-black text-4xl font-light hover:opacity-70 transition-opacity pointer-events-auto"
-        aria-label="Open menu"
-      >
-        +
-      </button>
+      {/* Menu button (+ icon) - hidden when menu is open */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed top-4 right-4 z-50 text-black text-4xl font-light hover:opacity-70 transition-opacity pointer-events-auto"
+          aria-label="Open menu"
+        >
+          +
+        </button>
+      )}
 
       {/* Navigation overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-white pointer-events-auto"
+          className="fixed inset-0 z-50 bg-white pointer-events-auto"
           onClick={() => setIsOpen(false)}
         >
           <div
@@ -38,7 +40,7 @@ export default function Navigation() {
           >
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 text-black text-4xl font-light hover:opacity-70 transition-opacity"
+              className="absolute top-4 right-4 z-50 text-black text-4xl font-light hover:opacity-70 transition-opacity pointer-events-auto"
               aria-label="Close menu"
             >
               ×

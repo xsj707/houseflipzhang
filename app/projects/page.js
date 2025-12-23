@@ -2,19 +2,11 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Link from "next/link";
 import Image from "next/image";
+import { getProjectsForListing } from "@/libs/projects";
 
-// Projects data - this will be managed statically
-// When new projects are added, add them to this array
-// IMPORTANT: Also add the full project data to /app/project/[slug]/page.js projects object
-const projects = [
-  {
-    slug: "demo-project-page",
-    title: "DEMO PROJECT",
-    location: "BAY AREA, CA, US",
-    image: "/images/placeholder-project.jpg",
-  },
-  // Add more projects here as they are created
-];
+// Get all projects for listing page
+// Each project is now in its own folder: app/project/[project-name]/page.js
+const projects = getProjectsForListing();
 
 export const metadata = {
   title: "Projects - Zhang Dong Architecture",
