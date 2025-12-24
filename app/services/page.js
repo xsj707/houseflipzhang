@@ -26,6 +26,14 @@ export default function ServicesPage() {
               service, ensuring a sleek, modernized space that meets your unique
               style.
             </p>
+            <div className="mb-8">
+              <Link
+                href="/services/renovation-strategy-guide"
+                className="text-black underline hover:opacity-70 transition-opacity text-sm"
+              >
+                → Learn about different renovation strategies
+              </Link>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <div className="flex items-center gap-2 text-sm text-black/60">
                 <svg
